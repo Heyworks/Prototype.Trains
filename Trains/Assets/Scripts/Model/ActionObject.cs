@@ -39,17 +39,16 @@ public abstract class ActionObject
     /// <summary>
     /// Tries to activate.
     /// </summary>
-    public bool TryActivate(Train train)
+    public void TryActivate(Train train)
     {
-        var distance = (train.Position - Position).magnitude;
-        if (train.Team != OwnerTeam && distance < Constants.COLLISION_DISTANCE)
+        if (!IsActive)
         {
-            Activate(train);
-
-            return true;
+            var distance = (train.Position - Position).magnitude;
+            if (train.Team != OwnerTeam && distance < Constants.COLLISION_DISTANCE)
+            {
+                Activate(train);
+            }
         }
-
-        return false;
     }
 
     protected abstract void Activate(Train train);

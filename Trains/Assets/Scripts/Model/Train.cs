@@ -86,18 +86,7 @@ public class Train
         destinationPoint = destination;
         movementVector = destination - Position;
     }
-
-    /// <summary>
-    /// Starts the movement.
-    /// </summary>
-    /// <param name="trainPosition">The train position.</param>
-    /// <param name="destination">The destination.</param>
-    public void StartMovement(Vector2 trainPosition, Vector2 destination)
-    {
-        Position = trainPosition;
-        Move(destination);
-    }
-
+    
     /// <summary>
     /// Stops this train.
     /// </summary>

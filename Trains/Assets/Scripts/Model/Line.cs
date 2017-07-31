@@ -57,4 +57,60 @@ public class Line
     {
         actionObjects.Add(actionObject);
     }
+
+    /// <summary>
+    /// Process movement by time.
+    /// </summary>
+    /// <param name="deltaTime">The delta time.</param>
+    public void Tick(float deltaTime)
+    {
+        MoveTrains(deltaTime);
+
+        ProcessTrainsCollisions();
+
+        ActivateObjects();
+    }
+
+    /// <summary>
+    /// Starts the movement.
+    /// </summary>
+    public void StartMovement()
+    {
+        foreach (var train in trains)
+        {
+            var destination = train.Team == Team.Blue ? depoRed.Position : depoBlue.Position;
+            train.Move(destination);
+        }
+    }
+
+    private void ActivateObjects()
+    {
+        foreach (var train in trains)
+        {
+            foreach (var actionObject in actionObjects)
+            {
+                actionObject.TryActivate(train);
+            }
+        }
+    }
+
+    private void ProcessTrainsCollisions()
+    {
+        for (int i = 0; i < trains.Count; i++)
+        {
+            for (int j = i + 1; i < trains.Count; j++)
+            {
+                trains[i].AttackByTrain(trains[j]);
+                trains[j].AttackByTrain(trains[i]);
+            }
+        }
+    }
+
+    private void MoveTrains(float deltaTime)
+    {
+        foreach (var train in trains)
+        {
+            train.Tick(deltaTime);
+        }
+    }
 }

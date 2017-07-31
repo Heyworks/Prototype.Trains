@@ -27,6 +27,29 @@ public class GameField
         return true;
     }
 
+    /// <summary>
+    /// Process movement by time.
+    /// </summary>
+    /// <param name="deltaTime">The delta time.</param>
+    public void Tick(float deltaTime)
+    {
+        foreach (var line in lines)
+        {
+            line.Tick(deltaTime);
+        }
+    }
+
+    /// <summary>
+    /// Starts the movement.
+    /// </summary>
+    public void StartMovement()
+    {
+        foreach (var line in lines)
+        {
+            line.StartMovement();
+        }
+    }
+
     private void CreateFieldItems()
     {
         var blueTeamY = 10;
