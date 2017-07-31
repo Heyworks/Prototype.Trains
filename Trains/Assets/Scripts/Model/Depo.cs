@@ -42,12 +42,17 @@ public class Depo
     /// <summary>
     /// Processes the reach by train.
     /// </summary>
-    public void ProcessReachByTrain(Train train)
+    public bool TryProcessReachByTrain(Train train)
     {
-        if (train.Team != OriginalTeam)
+        var distance = (Position - train.Position).magnitude;
+        if (train.Team != OriginalTeam && distance < Constants.COLLISION_DISTANCE)
         {
             OpponentCargo += train.Cargo;
             train.Stop();
+
+            return true;
         }
+
+        return false;
     }
 }

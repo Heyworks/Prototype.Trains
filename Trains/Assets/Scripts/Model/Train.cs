@@ -75,6 +75,7 @@ public class Train
         Attack = attack;
         Team = team;
         Position = startPosition;
+        Cargo = 10;
     }
 
     /// <summary>
@@ -84,7 +85,7 @@ public class Train
     public void Move(Vector2 destination)
     {
         destinationPoint = destination;
-        movementVector = destination - Position;
+        movementVector = (destination - Position).normalized;
     }
     
     /// <summary>

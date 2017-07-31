@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Represents train line.
@@ -69,6 +70,8 @@ public class Line
         ProcessTrainsCollisions();
 
         ActivateObjects();
+
+        ProcessDepoReaches();
     }
 
     /// <summary>
@@ -96,13 +99,28 @@ public class Line
 
     private void ProcessTrainsCollisions()
     {
+        var crashedTrains = new List<Train>();
         for (int i = 0; i < trains.Count; i++)
         {
-            for (int j = i + 1; i < trains.Count; j++)
+            for (int j = i + 1; j < trains.Count; j++)
             {
                 trains[i].AttackByTrain(trains[j]);
                 trains[j].AttackByTrain(trains[i]);
+                if (!trains[i].IsAlive)
+                {
+                    crashedTrains.Add(trains[i]);
+                }
+
+                if (!trains[j].IsAlive)
+                {
+                    crashedTrains.Add(trains[j]);
+                }
             }
+        }
+
+        foreach (var crashedTrain in crashedTrains)
+        {
+            RemoveTrain(crashedTrain);
         }
     }
 
@@ -111,6 +129,16 @@ public class Line
         foreach (var train in trains)
         {
             train.Tick(deltaTime);
+        }
+    }
+
+    private void ProcessDepoReaches()
+    {
+        var reachedDepoTrains = trains.Where(train => depoRed.TryProcessReachByTrain(train) || depoBlue.TryProcessReachByTrain(train)).ToList();
+
+        foreach (var reachedDepoTrain in reachedDepoTrains)
+        {
+            RemoveTrain(reachedDepoTrain);
         }
     }
 }

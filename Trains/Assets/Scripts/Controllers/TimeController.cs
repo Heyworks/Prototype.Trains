@@ -14,8 +14,11 @@ public class TimeController : MonoBehaviour
 
     private IEnumerator TickCoroutine()
     {
-        yield return new WaitForSeconds(1f);
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
 
-        gameField.Tick(1f);
+            gameField.Tick(1f);
+        }
     }
 }
