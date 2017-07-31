@@ -56,9 +56,26 @@ public class Train
     public Team Team { get; private set; }
 
     /// <summary>
-    /// Gets the position on the field.
+    /// Gets or sets the position on the field.
     /// </summary>
     public Vector2 Position { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Train" /> class.
+    /// </summary>
+    /// <param name="speed">The speed.</param>
+    /// <param name="live">The live.</param>
+    /// <param name="attack">The attack.</param>
+    /// <param name="team">The team.</param>
+    /// <param name="startPosition">The start position.</param>
+    public Train(float speed, int live, int attack, Team team, Vector2 startPosition)
+    {
+        Speed = speed;
+        Live = live;
+        Attack = attack;
+        Team = team;
+        Position = startPosition;
+    }
 
     /// <summary>
     /// Moves the train to specific destination.

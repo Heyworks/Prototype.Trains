@@ -5,20 +5,20 @@
 /// </summary>
 public class Line
 {
-    private readonly Depo depoA;
-    private readonly Depo depoB;
+    private readonly Depo depoRed;
+    private readonly Depo depoBlue;
     private readonly List<Train> trains = new List<Train>();
     private readonly List<ActionObject> actionObjects = new List<ActionObject>();
- 
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="Line"/> class.
+    /// Initializes a new instance of the <see cref="Line" /> class.
     /// </summary>
-    /// <param name="depoA">The depo a.</param>
-    /// <param name="depoB">The depo b.</param>
-    public Line(Depo depoA, Depo depoB)
+    /// <param name="depoRed">The depo red.</param>
+    /// <param name="depoBlue">The depo blue.</param>
+    public Line(Depo depoRed, Depo depoBlue)
     {
-        this.depoA = depoA;
-        this.depoB = depoB;
+        this.depoRed = depoRed;
+        this.depoBlue = depoBlue;
     }
 
     /// <summary>
@@ -28,6 +28,16 @@ public class Line
     public void AddTrain(Train train)
     {
         trains.Add(train);
+    }
+
+    /// <summary>
+    /// Creates the train.
+    /// </summary>
+    public void CreateTrain(float speed, int live, int attack, Team team)
+    {
+        var startPosition = team == Team.Red ? depoRed.Position : depoBlue.Position;
+        var train = new Train(speed, live, attack, team, startPosition);
+        AddTrain(train);
     }
 
     /// <summary>

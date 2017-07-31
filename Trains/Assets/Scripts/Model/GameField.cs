@@ -44,5 +44,17 @@ public class GameField
             depo.Add(depoBlue);
             lines.Add(line);
         }
+
+        //Light
+        lines[0].CreateTrain(2, 1, 1, Team.Red);
+        lines[0].CreateTrain(2, 1, 1, Team.Blue);
+
+        //Medium
+        lines[1].CreateTrain(1.5f, 2, 2, Team.Red);
+        lines[1].CreateTrain(1.5f, 2, 2, Team.Blue); 
+
+        //Heavy
+        lines[2].CreateTrain(1, 3, 3, Team.Red);
+        lines[2].CreateTrain(1, 3, 3, Team.Blue); 
     }
 }
