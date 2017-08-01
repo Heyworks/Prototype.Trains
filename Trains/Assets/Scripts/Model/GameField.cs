@@ -118,9 +118,9 @@ public class GameField
 
     private void CreateFieldItems()
     {
-        var blueTeamY = 10;
-        var firstLineX = 1;
-        var lineDeltaX = 2;
+        var blueTeamY = GameSettings.fieldLength;
+        var firstLineX = GameSettings.firstLineX;
+        var lineDeltaX = GameSettings.lineDeltaX;
 
         for (int i = 0; i < 3; i++)
         {
