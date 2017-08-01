@@ -10,12 +10,15 @@ public class StartScene : MonoBehaviour
     private InputField firstLineX;
     [SerializeField]
     private InputField lineDeltaX;
+    [SerializeField]
+    private InputField cargoEffect;
 
     private void Start()
     {
         fieldLength.text = GameSettings.fieldLength.ToString();
         firstLineX.text = GameSettings.firstLineX.ToString();
         lineDeltaX.text = GameSettings.lineDeltaX.ToString();
+        cargoEffect.text = GameSettings.cargoEffect.ToString();
     }
 
     public void LoadNextScene()
@@ -23,6 +26,7 @@ public class StartScene : MonoBehaviour
         GameSettings.fieldLength = int.Parse(fieldLength.text);
         GameSettings.firstLineX = int.Parse(firstLineX.text);
         GameSettings.lineDeltaX = int.Parse(lineDeltaX.text);
+        GameSettings.cargoEffect = int.Parse(cargoEffect.text);
 
         SceneManager.LoadScene(1);
     }

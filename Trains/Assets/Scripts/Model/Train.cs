@@ -87,7 +87,7 @@ public class Train
         destinationPoint = destination;
         movementVector = (destination - Position).normalized;
     }
-    
+
     /// <summary>
     /// Stops this train.
     /// </summary>
@@ -104,7 +104,9 @@ public class Train
     {
         if (IsAlive)
         {
-            Position += Speed * movementVector * deltaTime;
+            var cargoEffect = Cargo * (GameSettings.cargoEffect / 100f);
+            cargoEffect = Math.Min(cargoEffect, 1);
+            Position += (Speed * movementVector * deltaTime) * (1 - cargoEffect);
         }
     }
 
