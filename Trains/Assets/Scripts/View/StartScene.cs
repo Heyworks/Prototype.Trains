@@ -5,11 +5,18 @@ using UnityEngine.UI;
 public class StartScene : MonoBehaviour
 {
     [SerializeField]
-    private Text fieldLength;
+    private InputField fieldLength;
     [SerializeField]
-    private Text firstLineX;
+    private InputField firstLineX;
     [SerializeField]
-    private Text lineDeltaX;
+    private InputField lineDeltaX;
+
+    private void Start()
+    {
+        fieldLength.text = GameSettings.fieldLength.ToString();
+        firstLineX.text = GameSettings.firstLineX.ToString();
+        lineDeltaX.text = GameSettings.lineDeltaX.ToString();
+    }
 
     public void LoadNextScene()
     {
