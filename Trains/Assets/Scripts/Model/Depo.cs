@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Represents player's depo.
 /// </summary>
 public class Depo
 {
+    /// <summary>
+    /// Occurs when depo has been reached by another team train.
+    /// </summary>
+    public event Action DepoReached;
+    
     /// <summary>
     /// Gets the original team.
     /// </summary>
@@ -49,10 +55,17 @@ public class Depo
         {
             OpponentCargo += train.Cargo;
             train.Stop();
+            OnDepoReached();
 
             return true;
         }
 
         return false;
+    }
+
+    private void OnDepoReached()
+    {
+        Action handler = DepoReached;
+        if (handler != null) handler();
     }
 }

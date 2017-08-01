@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 /// <summary>
@@ -10,6 +11,17 @@ public class Line
     private readonly Depo depoBlue;
     private readonly List<Train> trains = new List<Train>();
     private readonly List<ActionObject> actionObjects = new List<ActionObject>();
+
+    /// <summary>
+    /// Gets the trains.
+    /// </summary>
+    public List<Train> Trains
+    {
+        get
+        {
+            return trains;
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Line" /> class.

@@ -104,7 +104,7 @@ public class Train
     {
         if (IsAlive)
         {
-            Position += movementVector*deltaTime;
+            Position += Speed * movementVector * deltaTime;
         }
     }
 

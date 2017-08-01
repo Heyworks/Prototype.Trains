@@ -10,18 +10,29 @@ public class TrainView : MonoBehaviour
     [SerializeField]
     private Image trainImage;
     [SerializeField]
+    private Text cargo;
+    [SerializeField]
     private Sprite triangle;
     [SerializeField]
     private Sprite square;
     [SerializeField]
     private Sprite circle;
 
+    private PositionConverter positionConverter;
+    private Train train;
+
     /// <summary>
     /// Initializes the specified train.
     /// </summary>
     /// <param name="train">The train.</param>
-    public void Initialize(Train train)
+    /// <param name="positionConverter">The position converter.</param>
+    public void Initialize(Train train, PositionConverter positionConverter)
     {
+        this.positionConverter = positionConverter;
+        this.train = train;
+        train.Attacked += Train_Attacked;
+        train.Crashed += Train_Crashed;
+        UpdateStats();
         trainImage.color = train.Team == Team.Red ? Color.red : Color.blue;
         switch (train.Live)
         {
@@ -40,5 +51,43 @@ public class TrainView : MonoBehaviour
             default:
                 throw new Exception(string.Format("Can't find figure for train with live : {0}", train.Live));
         }
+    }
+
+    private void Update()
+    {
+        if (train != null)
+        {
+            transform.position = positionConverter.ConvertModelToViewPosition(train.Position);
+        }
+    }
+
+    private void Train_Crashed()
+    {
+        PlayAttackedEffect();
+        PlayCrashedEffect();
+    }
+
+    private void PlayCrashedEffect()
+    {
+        trainImage.color = Color.black;
+    }
+
+    private void Train_Attacked()
+    {
+        UpdateStats();
+        PlayAttackedEffect();
+    }
+
+    private void PlayAttackedEffect()
+    {
+        var scale = transform.localScale;
+        var time = 0.25f;
+        iTween.ScaleTo(gameObject, iTween.Hash("scale", scale * 1.5f, "easeType", "easeInOutExpo", "time", time));
+        iTween.ScaleTo(gameObject, iTween.Hash("scale", scale, "easeType", "easeInOutExpo", "time", time, "delay", time * 1.1f));
+    }
+
+    private void UpdateStats()
+    {
+        cargo.text = train.Cargo.ToString();
     }
 }
