@@ -116,6 +116,15 @@ public class GameField
         }
     }
 
+    /// <summary>
+    /// Gets the lines sorted by distance.
+    /// </summary>
+    /// <param name="position">The position.</param>
+    public List<Line> GetLinesSortedByDistance(Vector2 position)
+    {
+        return lines.OrderBy(line => line.GetDistanceFrom(position)).ToList();
+    }
+
     private void CreateFieldItems()
     {
         var blueTeamY = GameSettings.fieldLength;

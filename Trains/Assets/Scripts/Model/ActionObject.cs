@@ -21,6 +21,11 @@ public abstract class ActionObject
     public Team OwnerTeam { get; private set; }
 
     /// <summary>
+    /// Gets the instalation time.
+    /// </summary>
+    public float InstalationTime { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ActionObject" /> class.
     /// </summary>
     /// <param name="position">The position.</param>

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Represents train line.
@@ -96,6 +97,16 @@ public class Line
             var destination = train.Team == Team.Blue ? depoRed.Position : depoBlue.Position;
             train.Move(destination);
         }
+    }
+    
+    /// <summary>
+    /// Gets the distance from point.
+    /// </summary>
+    /// <param name="position">The position.</param>
+    /// <returns></returns>
+    public float GetDistanceFrom(Vector2 position)
+    {
+        return Math.Abs(depoRed.Position.x - position.x);
     }
 
     private void ActivateObjects()

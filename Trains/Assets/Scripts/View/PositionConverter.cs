@@ -20,7 +20,7 @@ public class PositionConverter
     public PositionConverter(Vector2 lowerLeftDepoViewPosition, Vector2 upperRightDepoViewPosition,
         Vector2 lowerLeftDepoModelPosition, Vector2 upperRightDepoModelPosition)
     {
-        xDelta = (upperRightDepoViewPosition.x - lowerLeftDepoViewPosition.x)/
+        xDelta = (upperRightDepoViewPosition.x - lowerLeftDepoViewPosition.x) /
                  (upperRightDepoModelPosition.x - lowerLeftDepoModelPosition.x);
         yDelta = (upperRightDepoViewPosition.y - lowerLeftDepoViewPosition.y) /
                  (upperRightDepoModelPosition.y - lowerLeftDepoModelPosition.y);
@@ -35,9 +35,22 @@ public class PositionConverter
     /// <param name="modelPosition">The model position.</param>
     public Vector2 ConvertModelToViewPosition(Vector2 modelPosition)
     {
-        var viewX = lowerLeftDepoViewPosition.x + xDelta*(modelPosition.x - lowerLeftDepoModelPosition.x);
+        var viewX = lowerLeftDepoViewPosition.x + xDelta * (modelPosition.x - lowerLeftDepoModelPosition.x);
         var viewY = lowerLeftDepoViewPosition.y + yDelta * (modelPosition.y - lowerLeftDepoModelPosition.y);
-        
+        var viewPosition = new Vector2(viewX, viewY);
+
+        return viewPosition;
+    }
+
+    /// <summary>
+    /// Converts the view to model position.
+    /// </summary>
+    /// <param name="viewPosition">The view position.</param>
+    public Vector2 ConvertViewToModelPosition(Vector2 viewPosition)
+    {
+        var viewX = lowerLeftDepoModelPosition.x + (viewPosition.x - lowerLeftDepoViewPosition.x) / xDelta;
+        var viewY = lowerLeftDepoModelPosition.y + (viewPosition.y - lowerLeftDepoViewPosition.y) / yDelta;
+
         return new Vector2(viewX, viewY);
     }
 }
