@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Represents action object base class
@@ -13,7 +16,7 @@ public abstract class ActionObject
     /// <summary>
     /// Gets the position.
     /// </summary>
-    public Vector2 Position { get; private set; }
+    public float YPosition { get; private set; }
 
     /// <summary>
     /// Gets the owner team.
@@ -21,24 +24,37 @@ public abstract class ActionObject
     public Team OwnerTeam { get; private set; }
 
     /// <summary>
-    /// Gets the instalation time.
+    /// Gets the type of the action object.
     /// </summary>
-    public float InstalationTime { get; private set; }
+    public ActionObjectType ActionObjectType { get; private set; }
+
+    /// <summary>
+    /// Gets the installation time.
+    /// </summary>
+    public float InstallationTime
+    {
+        get
+        {
+            return GameSettings.installTime[ActionObjectType];
+        }
+    }
+
+    protected float StartInstallationTime { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ActionObject" /> class.
     /// </summary>
-    /// <param name="position">The position.</param>
     /// <param name="ownerTeam">The owner team.</param>
-    protected ActionObject(Vector2 position, Team ownerTeam)
+    /// <param name="actionObjectType">Type of the action object.</param>
+    /// <param name="yPosition">The y position.</param>
+    /// <param name="lines">The lines.</param>
+    protected ActionObject(Team ownerTeam, ActionObjectType actionObjectType, float yPosition, List<Line> lines)
     {
-        Position = position;
         OwnerTeam = ownerTeam;
-    }
-
-    public void UpdatePosition(Vector2 position)
-    {
-        Position = position;
+        YPosition = yPosition;
+        ActionObjectType = actionObjectType;
+        lines.First().AddActionObject(this);
+        StartInstallationTime = Time.time;
     }
 
     /// <summary>
@@ -48,14 +64,14 @@ public abstract class ActionObject
     {
         if (!IsActive)
         {
-            var distance = (train.Position - Position).magnitude;
+            var distance = Math.Abs(train.Position.y - YPosition);
             if (train.Team != OwnerTeam && distance < Constants.COLLISION_DISTANCE)
             {
                 Activate(train);
             }
         }
     }
-
+    
     protected abstract void Activate(Train train);
 }
 
