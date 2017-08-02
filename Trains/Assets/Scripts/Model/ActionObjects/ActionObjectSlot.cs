@@ -6,10 +6,11 @@ using UnityEngine;
 /// </summary>
 public class ActionObjectSlot
 {
-    private ActionObjectType objectType;
-    private ActionObjectsFactory factory;
-    private float lastUseTime;
-    private int cooldown;
+    private readonly ActionObjectType objectType;
+    private readonly ActionObjectsFactory factory;
+    private readonly int cooldown;
+    private readonly Team team;
+    private float lastUseTime = -100;
 
     /// <summary>
     /// Gets a value indicating whether this instance is action object available.
@@ -34,14 +35,16 @@ public class ActionObjectSlot
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ActionObjectSlot"/> class.
+    /// Initializes a new instance of the <see cref="ActionObjectSlot" /> class.
     /// </summary>
     /// <param name="objectType">Type of the object.</param>
+    /// <param name="team">The team.</param>
     /// <param name="factory">The factory.</param>
-    public ActionObjectSlot(ActionObjectType objectType, ActionObjectsFactory factory)
+    public ActionObjectSlot(ActionObjectType objectType, Team team, ActionObjectsFactory factory)
     {
         this.objectType = objectType;
         this.factory = factory;
+        this.team = team;
         cooldown = GameSettings.cooldowns[objectType];
     }
 
@@ -54,7 +57,7 @@ public class ActionObjectSlot
         if (IsActionObjectAvailable)
         {
             lastUseTime = Time.time;
-            return factory.CreateActionObject(objectType, position);
+            return factory.CreateActionObject(objectType, team, position);
         }
 
         Debug.LogError(string.Format("Can't install action object of type {0}. Cooldown is not finished.", objectType));

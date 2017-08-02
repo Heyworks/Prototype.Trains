@@ -12,7 +12,14 @@ public class TimeController : MonoBehaviour
         gameField = new GameField();
         gameField.StartMovement();
         FieldView.fieldView.InitializeField(gameField);
+        TestActions();
         StartCoroutine(TickCoroutine());
+    }
+
+    private void TestActions()
+    {
+        var panel = new ActionsPanel(gameField);
+        panel.Slots[0].InstallObject(new Vector2(1, 3));
     }
 
     private IEnumerator TickCoroutine()

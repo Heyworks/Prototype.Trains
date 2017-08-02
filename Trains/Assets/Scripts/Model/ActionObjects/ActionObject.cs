@@ -8,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public abstract class ActionObject
 {
+    private readonly float startInstallationTime;
+    private readonly Line assignedLine;
+
     /// <summary>
     /// Gets or sets a value indicating whether this object is active.
     /// </summary>
@@ -39,7 +42,17 @@ public abstract class ActionObject
         }
     }
 
-    protected float StartInstallationTime { get; private set; }
+    /// <summary>
+    /// Gets the context behaviour.
+    /// </summary>
+    protected MonoBehaviour ContextBehaviour
+    {
+        get
+        {
+            //TODO: create own context beh.
+            return FieldView.fieldView;
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ActionObject" /> class.
@@ -53,8 +66,9 @@ public abstract class ActionObject
         OwnerTeam = ownerTeam;
         YPosition = yPosition;
         ActionObjectType = actionObjectType;
-        lines.First().AddActionObject(this);
-        StartInstallationTime = Time.time;
+        assignedLine = lines.First();
+        assignedLine.AddActionObject(this);
+        startInstallationTime = Time.time;
     }
 
     /// <summary>
@@ -62,16 +76,23 @@ public abstract class ActionObject
     /// </summary>
     public void TryActivate(Train train)
     {
-        if (!IsActive)
+        var isInstalled = (Time.time - startInstallationTime) > InstallationTime;
+
+        if (!IsActive && isInstalled)
         {
             var distance = Math.Abs(train.Position.y - YPosition);
             if (train.Team != OwnerTeam && distance < Constants.COLLISION_DISTANCE)
             {
+                IsActive = true;
                 Activate(train);
             }
         }
     }
     
+    protected void Deactivate()
+    {
+        assignedLine.RemoveActionObject(this);
+    }
+
     protected abstract void Activate(Train train);
 }
-

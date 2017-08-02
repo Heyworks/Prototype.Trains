@@ -131,6 +131,34 @@ public class Train
             }
         }
     }
+    
+    /// <summary>
+    /// Removes the cargo.
+    /// </summary>
+    /// <param name="cargoAmount">The cargo amount.</param>
+    public void RemoveCargo(int cargoAmount)
+    {
+        Cargo = Math.Max(Cargo - cargoAmount, 0);
+        OnAttacked();
+    }
+
+    /// <summary>
+    /// Decreases the speed.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    public void DecreaseSpeed(float value)
+    {
+        Speed /= 2;
+    }
+    
+    /// <summary>
+    /// Increases the speed.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    public void IncreaseSpeed(float value)
+    {
+        Speed *= value;
+    }
 
     private void OnCrashed()
     {

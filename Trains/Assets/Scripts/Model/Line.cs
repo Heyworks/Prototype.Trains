@@ -73,6 +73,15 @@ public class Line
     }
 
     /// <summary>
+    /// Removes the action object.
+    /// </summary>
+    /// <param name="actionObject">The action object.</param>
+    public void RemoveActionObject(ActionObject actionObject)
+    {
+        actionObjects.Remove(actionObject);
+    }
+
+    /// <summary>
     /// Process movement by time.
     /// </summary>
     /// <param name="deltaTime">The delta time.</param>
