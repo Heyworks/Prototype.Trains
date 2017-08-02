@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 public class Train
 {
-    private Vector2 destinationPoint;
     private Vector2 movementVector;
 
     /// <summary>
@@ -84,7 +83,6 @@ public class Train
     /// <param name="destination">The destination.</param>
     public void Move(Vector2 destination)
     {
-        destinationPoint = destination;
         movementVector = (destination - Position).normalized;
     }
 

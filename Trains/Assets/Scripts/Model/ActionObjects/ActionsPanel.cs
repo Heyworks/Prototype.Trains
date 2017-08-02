@@ -25,5 +25,6 @@ public class ActionsPanel
         Slots = new List<ActionObjectSlot>();
         Slots.Add(new ActionObjectSlot(ActionObjectType.Ambush, Team.Red, factory));
         Slots.Add(new ActionObjectSlot(ActionObjectType.Barrier, Team.Red, factory));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Arrow, Team.Red, factory));
     }
 }

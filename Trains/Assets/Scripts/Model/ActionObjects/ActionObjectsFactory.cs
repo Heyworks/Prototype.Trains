@@ -29,7 +29,7 @@ public class ActionObjectsFactory
         switch (type)
         {
             case ActionObjectType.Arrow:
-                return null;
+                return new ArrowActionObject(team, position.y, sortedLines, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y);
             case ActionObjectType.Barrier:
                 return new BarrierActionObject(team, position.y, sortedLines);
             case ActionObjectType.Ambush:

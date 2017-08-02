@@ -20,6 +20,7 @@ public class TimeController : MonoBehaviour
     {
         var panel = new ActionsPanel(gameField);
         panel.Slots[0].InstallObject(new Vector2(1, 3));
+        panel.Slots[2].InstallObject(new Vector2(1, 1));
     }
 
     private IEnumerator TickCoroutine()

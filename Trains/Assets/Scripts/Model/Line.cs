@@ -14,6 +14,17 @@ public class Line
     private readonly List<ActionObject> actionObjects = new List<ActionObject>();
 
     /// <summary>
+    /// Gets the line x coordinate.
+    /// </summary>
+    public float XCoordinate
+    {
+        get
+        {
+            return depoRed.Position.x;
+        }
+    }
+
+    /// <summary>
     /// Gets the trains.
     /// </summary>
     public List<Train> Trains

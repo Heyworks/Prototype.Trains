@@ -9,7 +9,7 @@ using UnityEngine;
 public abstract class ActionObject
 {
     private readonly float startInstallationTime;
-    private readonly Line assignedLine;
+   
 
     /// <summary>
     /// Gets or sets a value indicating whether this object is active.
@@ -55,6 +55,11 @@ public abstract class ActionObject
     }
 
     /// <summary>
+    /// Gets the assigned line.
+    /// </summary>
+    protected Line AssignedLine { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ActionObject" /> class.
     /// </summary>
     /// <param name="ownerTeam">The owner team.</param>
@@ -66,8 +71,8 @@ public abstract class ActionObject
         OwnerTeam = ownerTeam;
         YPosition = yPosition;
         ActionObjectType = actionObjectType;
-        assignedLine = lines.First();
-        assignedLine.AddActionObject(this);
+        AssignedLine = lines.First();
+        AssignedLine.AddActionObject(this);
         startInstallationTime = Time.time;
     }
 
@@ -81,17 +86,30 @@ public abstract class ActionObject
         if (!IsActive && isInstalled)
         {
             var distance = Math.Abs(train.Position.y - YPosition);
-            if (train.Team != OwnerTeam && distance < Constants.COLLISION_DISTANCE)
+            if (train.Team == GetRequiredTrainTeam() && distance < Constants.COLLISION_DISTANCE)
             {
                 IsActive = true;
                 Activate(train);
             }
         }
     }
-    
+
+    protected virtual Team GetRequiredTrainTeam()
+    {
+        switch (OwnerTeam)
+        {
+            case Team.Red:
+                return Team.Blue;
+            case Team.Blue:
+                return Team.Red;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     protected void Deactivate()
     {
-        assignedLine.RemoveActionObject(this);
+        AssignedLine.RemoveActionObject(this);
     }
 
     protected abstract void Activate(Train train);
