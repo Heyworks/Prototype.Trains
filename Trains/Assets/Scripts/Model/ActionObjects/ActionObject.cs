@@ -66,6 +66,17 @@ public abstract class ActionObject
     }
 
     /// <summary>
+    /// Gets a value indicating whether this action object is installed.
+    /// </summary>
+    public bool IsInstalled
+    {
+        get
+        {
+            return (Time.time - startInstallationTime) > InstallationTime;
+        }
+    }
+
+    /// <summary>
     /// Gets the assigned line.
     /// </summary>
     protected Line AssignedLine { get; private set; }
@@ -99,9 +110,7 @@ public abstract class ActionObject
     /// </summary>
     public void TryActivate(Train train)
     {
-        var isInstalled = (Time.time - startInstallationTime) > InstallationTime;
-
-        if (!IsActive && isInstalled)
+        if (!IsActive && IsInstalled)
         {
             var distance = Math.Abs(train.Position.y - yPosition);
             if (train.Team == GetRequiredTrainTeam() && distance < Constants.COLLISION_DISTANCE)

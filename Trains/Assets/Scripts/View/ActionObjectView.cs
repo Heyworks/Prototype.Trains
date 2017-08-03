@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class ActionObjectView : MonoBehaviour
     [SerializeField]
     private Sprite ambushSprite;
 
+    [SerializeField]
+    private float alfaBeforInstall;
     private PositionConverter positionConverter;
 
     /// <summary>
@@ -30,6 +33,7 @@ public class ActionObjectView : MonoBehaviour
         transform.SetAsLastSibling();
         SetupImage(actionObject);
         actionObject.Deactivated += ActionObject_Deactivated;
+        StartCoroutine(WaitForInstallCoroutine(actionObject));
     }
     
     private void SetupImage(ActionObject actionObject)
@@ -37,7 +41,7 @@ public class ActionObjectView : MonoBehaviour
         switch (actionObject.ActionObjectType)
         {
             case ActionObjectType.Arrow:
-                DrawLine((ArrowActionObject) actionObject);
+                DrawLine((ArrowActionObject)actionObject);
                 break;
             case ActionObjectType.Barrier:
                 icon.sprite = barrierSprite;
@@ -49,7 +53,9 @@ public class ActionObjectView : MonoBehaviour
                 throw new ArgumentOutOfRangeException("actionObject");
         }
 
-        icon.color = actionObject.OwnerTeam == Team.Red ? Color.red : Color.blue;
+        var color = actionObject.OwnerTeam == Team.Red ? Color.red : Color.blue;
+        color.a = alfaBeforInstall;
+        icon.color = color;
     }
 
     private void DrawLine(ArrowActionObject arrowActionObject)
@@ -64,6 +70,18 @@ public class ActionObjectView : MonoBehaviour
         var angle = Mathf.Atan2(differenceVector.y, differenceVector.x) * Mathf.Rad2Deg;
         icon.rectTransform.rotation = Quaternion.Euler(0, 0, angle);
         transform.SetAsFirstSibling();
+    }
+
+    private IEnumerator WaitForInstallCoroutine(ActionObject actionObject)
+    {
+        while (!actionObject.IsInstalled)
+        {
+            yield return null;
+        }
+
+        var color = icon.color;
+        color.a = 1;
+        icon.color = color;
     }
 
     private void ActionObject_Deactivated()
