@@ -35,6 +35,28 @@ public class ActionObjectSlot
     }
 
     /// <summary>
+    /// Gets the type of the action object.
+    /// </summary>
+    public ActionObjectType ActionObjectType
+    {
+        get
+        {
+            return objectType;
+        }
+    }
+
+    /// <summary>
+    /// Gets the team.
+    /// </summary>
+    public Team Team
+    {
+        get
+        {
+            return team;
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ActionObjectSlot" /> class.
     /// </summary>
     /// <param name="objectType">Type of the object.</param>

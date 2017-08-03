@@ -147,6 +147,7 @@ public class Train
     public void DecreaseSpeed(float value)
     {
         Speed /= 2;
+        OnAttacked();
     }
     
     /// <summary>

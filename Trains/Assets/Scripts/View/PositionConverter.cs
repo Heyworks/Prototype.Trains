@@ -9,7 +9,7 @@ public class PositionConverter
     private readonly float yDelta;
     private Vector2 lowerLeftDepoViewPosition;
     private Vector2 lowerLeftDepoModelPosition;
-
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="PositionConverter"/> class.
     /// </summary>

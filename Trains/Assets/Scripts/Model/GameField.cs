@@ -82,17 +82,7 @@ public class GameField
 
         return list;
     }
-
-    /// <summary>
-    /// Tries the apply action object.
-    /// </summary>
-    /// <param name="actionObject">The action object.</param>
-    public bool TryApplyActionObject(ActionObject actionObject)
-    {
-        //TODO: Implement
-        return true;
-    }
-
+    
     /// <summary>
     /// Process movement by time.
     /// </summary>

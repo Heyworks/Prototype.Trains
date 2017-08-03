@@ -22,6 +22,11 @@ public class FieldView : MonoBehaviour
 
     private GameField field;
 
+    /// <summary>
+    /// Gets the position converter.
+    /// </summary>
+    public PositionConverter PositionConverter { get; private set; }
+
     private void Awake()
     {
         fieldView = this;
@@ -34,20 +39,20 @@ public class FieldView : MonoBehaviour
     public void InitializeField(GameField field)
     {
         this.field = field;
-        var positionConverter = new PositionConverter(leftLowerDepo.position, rightUpperDepo.position,
+        PositionConverter = new PositionConverter(leftLowerDepo.position, rightUpperDepo.position,
             field.LeftLowerDepoPosition, field.RightUpperDepoPosition);
 
         var trains = field.GetTrains();
         foreach (var train in trains)
         {
             var trainView = Instantiate(trainPrefab, transform);
-            trainView.Initialize(train, positionConverter);
+            trainView.Initialize(train, PositionConverter);
         }
 
         UpdateScore();
         field.ScoreChanged += Field_ScoreChanged;
     }
-
+    
     private void Field_ScoreChanged()
     {
         UpdateScore();
