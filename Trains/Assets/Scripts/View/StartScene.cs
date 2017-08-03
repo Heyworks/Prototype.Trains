@@ -12,6 +12,12 @@ public class StartScene : MonoBehaviour
     private InputField lineDeltaX;
     [SerializeField]
     private InputField cargoEffect;
+    [SerializeField]
+    private InputField arrowCooldown;
+    [SerializeField]
+    private InputField barrierCooldown;
+    [SerializeField]
+    private InputField ambushCooldown;
 
     private void Start()
     {
@@ -19,6 +25,10 @@ public class StartScene : MonoBehaviour
         firstLineX.text = GameSettings.firstLineX.ToString();
         lineDeltaX.text = GameSettings.lineDeltaX.ToString();
         cargoEffect.text = GameSettings.cargoEffect.ToString();
+
+        arrowCooldown.text = GameSettings.cooldowns[ActionObjectType.Arrow].ToString();
+        barrierCooldown.text = GameSettings.cooldowns[ActionObjectType.Barrier].ToString();
+        ambushCooldown.text = GameSettings.cooldowns[ActionObjectType.Ambush].ToString();
     }
 
     public void LoadNextScene()
@@ -28,6 +38,9 @@ public class StartScene : MonoBehaviour
         GameSettings.lineDeltaX = int.Parse(lineDeltaX.text);
         GameSettings.cargoEffect = int.Parse(cargoEffect.text);
 
+        GameSettings.cooldowns[ActionObjectType.Arrow] = int.Parse(arrowCooldown.text);
+        GameSettings.cooldowns[ActionObjectType.Barrier] = int.Parse(barrierCooldown.text);
+        GameSettings.cooldowns[ActionObjectType.Ambush] = int.Parse(ambushCooldown.text);
         SceneManager.LoadScene(1);
     }
 
