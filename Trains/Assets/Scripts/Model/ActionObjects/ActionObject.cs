@@ -9,7 +9,12 @@ using UnityEngine;
 public abstract class ActionObject
 {
     private readonly float startInstallationTime;
-   
+    private readonly float yPosition;
+
+    /// <summary>
+    /// Occurs when object has been deactivated.
+    /// </summary>
+    public event Action Deactivated;
 
     /// <summary>
     /// Gets or sets a value indicating whether this object is active.
@@ -19,7 +24,13 @@ public abstract class ActionObject
     /// <summary>
     /// Gets the position.
     /// </summary>
-    public float YPosition { get; private set; }
+    public Vector2 Position
+    {
+        get
+        {
+            return new Vector2(AssignedLine.XCoordinate, yPosition);
+        }
+    }
 
     /// <summary>
     /// Gets the owner team.
@@ -69,7 +80,7 @@ public abstract class ActionObject
     protected ActionObject(Team ownerTeam, ActionObjectType actionObjectType, float yPosition, List<Line> lines)
     {
         OwnerTeam = ownerTeam;
-        YPosition = yPosition;
+        this.yPosition = yPosition;
         ActionObjectType = actionObjectType;
         AssignedLine = lines.First();
         AssignedLine.AddActionObject(this);
@@ -85,7 +96,7 @@ public abstract class ActionObject
 
         if (!IsActive && isInstalled)
         {
-            var distance = Math.Abs(train.Position.y - YPosition);
+            var distance = Math.Abs(train.Position.y - yPosition);
             if (train.Team == GetRequiredTrainTeam() && distance < Constants.COLLISION_DISTANCE)
             {
                 IsActive = true;
@@ -110,7 +121,17 @@ public abstract class ActionObject
     protected void Deactivate()
     {
         AssignedLine.RemoveActionObject(this);
+        OnDeactivated();
     }
 
     protected abstract void Activate(Train train);
+    
+    private void OnDeactivated()
+    {
+        var handler = Deactivated;
+        if (handler != null)
+        {
+            handler();
+        }
+    }
 }

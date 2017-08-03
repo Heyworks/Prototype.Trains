@@ -14,6 +14,11 @@ public class Line
     private readonly List<ActionObject> actionObjects = new List<ActionObject>();
 
     /// <summary>
+    /// Occurs when action object has been added.
+    /// </summary>
+    public event Action<ActionObject> ActionObjectAdded;
+
+    /// <summary>
     /// Gets the line x coordinate.
     /// </summary>
     public float XCoordinate
@@ -81,6 +86,7 @@ public class Line
     public void AddActionObject(ActionObject actionObject)
     {
         actionObjects.Add(actionObject);
+        OnActionObjectAdded(actionObject);
     }
 
     /// <summary>
@@ -182,6 +188,15 @@ public class Line
         foreach (var reachedDepoTrain in reachedDepoTrains)
         {
             RemoveTrain(reachedDepoTrain);
+        }
+    }
+
+    private void OnActionObjectAdded(ActionObject actionObject)
+    {
+        var handler = ActionObjectAdded;
+        if (handler != null)
+        {
+            handler(actionObject);
         }
     }
 }

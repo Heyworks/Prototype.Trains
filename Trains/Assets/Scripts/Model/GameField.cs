@@ -15,7 +15,12 @@ public class GameField
     /// Occurs when score has been changed.
     /// </summary>
     public event Action ScoreChanged;
-    
+
+    /// <summary>
+    /// Occurs when action object has been added.
+    /// </summary>
+    public event Action<ActionObject> ActionObjectAdded;
+
     /// <summary>
     /// Gets the left lower depo position.
     /// </summary>
@@ -134,6 +139,7 @@ public class GameField
             depo.Add(depoRed);
             depo.Add(depoBlue);
             lines.Add(line);
+            line.ActionObjectAdded += Line_ActionObjectAdded;
         }
 
         //Light
@@ -148,15 +154,30 @@ public class GameField
         lines[2].CreateTrain(1, 3, 3, Team.Red);
         lines[0].CreateTrain(1, 3, 3, Team.Blue);
     }
-
+    
     private void Depo_DepoReached()
     {
         OnScoreChanged();
+    }
+
+
+    private void Line_ActionObjectAdded(ActionObject actionObject)
+    {
+        OnActionObjectAdded(actionObject);
     }
     
     private void OnScoreChanged()
     {
         Action handler = ScoreChanged;
         if (handler != null) handler();
+    }
+
+    private void OnActionObjectAdded(ActionObject actionObject)
+    {
+        var handler = ActionObjectAdded;
+        if (handler != null)
+        {
+            handler(actionObject);
+        }
     }
 }

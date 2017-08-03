@@ -19,7 +19,9 @@ public class FieldView : MonoBehaviour
     private Text redTeamScore;
     [SerializeField]
     private Text blueTeamScore;
-
+    [SerializeField]
+    private ActionObjectView actionObjectViewPrefab;
+    
     private GameField field;
 
     /// <summary>
@@ -51,16 +53,29 @@ public class FieldView : MonoBehaviour
 
         UpdateScore();
         field.ScoreChanged += Field_ScoreChanged;
+        field.ActionObjectAdded += Field_ActionObjectAdded;
     }
-    
-    private void Field_ScoreChanged()
+
+    private void CreateActionObjectView(ActionObject actionObject)
     {
-        UpdateScore();
+        var actionObjectView = Instantiate(actionObjectViewPrefab);
+        actionObjectView.transform.SetParent(transform);
+        actionObjectView.Initialize(actionObject, PositionConverter);
     }
 
     private void UpdateScore()
     {
         redTeamScore.text = field.RedTeamScore.ToString();
         blueTeamScore.text = field.BlueTeamScore.ToString();
+    }
+
+    private void Field_ActionObjectAdded(ActionObject actionObject)
+    {
+        CreateActionObjectView(actionObject);
+    }
+
+    private void Field_ScoreChanged()
+    {
+        UpdateScore();
     }
 }
