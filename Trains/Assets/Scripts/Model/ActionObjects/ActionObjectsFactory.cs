@@ -26,16 +26,23 @@ public class ActionObjectsFactory
     public ActionObject CreateActionObject(ActionObjectType type, Team team, Vector2 position)
     {
         var sortedLines = gameField.GetLinesSortedByDistance(position);
+        ActionObject actionObject;
         switch (type)
         {
             case ActionObjectType.Arrow:
-                return new ArrowActionObject(team, position.y, sortedLines, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y);
+               actionObject = new ArrowActionObject(team, position.y, sortedLines, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y);
+            break;
             case ActionObjectType.Barrier:
-                return new BarrierActionObject(team, position.y, sortedLines);
+            actionObject = new BarrierActionObject(team, position.y, sortedLines);
+                break;
             case ActionObjectType.Ambush:
-                return new AmbushActionObject(team, position.y, sortedLines);
+                actionObject = new AmbushActionObject(team, position.y, sortedLines);
+                break;
             default:
                 throw new ArgumentOutOfRangeException("type");
         }
+
+        actionObject.AddObjectToLine();
+        return actionObject;
     }
 }

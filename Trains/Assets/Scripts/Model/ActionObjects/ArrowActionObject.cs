@@ -11,8 +11,17 @@ public class ArrowActionObject : ActionObject
     private Line aimLine;
     private float yDelta;
     private Vector2 destination;
-    private float yMin;
-    private float yMax;
+  
+    /// <summary>
+    /// Gets the aim position.
+    /// </summary>
+    public Vector2 AimPosition
+    {
+        get
+        {
+            return destination;
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArrowActionObject" /> class.
@@ -26,9 +35,11 @@ public class ArrowActionObject : ActionObject
     {
         yDelta = (yMax - yMin) / 10 * (ownerTeam == Team.Blue ? -1 : 1);
         
-        this.yMin = yMin;
-        this.yMax = yMax;
         aimLine = lines[1];
+
+        destination = new Vector2(aimLine.XCoordinate, Position.y + yDelta);
+        destination.y = Math.Max(yMin, destination.y);
+        destination.y = Math.Min(yMax, destination.y);
     }
 
     protected override Team GetRequiredTrainTeam()
@@ -38,10 +49,6 @@ public class ArrowActionObject : ActionObject
 
     protected override void Activate(Train train)
     {
-        destination = new Vector2(aimLine.XCoordinate, train.Position.y + yDelta);
-        destination.y = Math.Max(yMin, destination.y);
-        destination.y = Math.Min(yMax, destination.y);
-
         train.Move(destination);
         ContextBehaviour.StartCoroutine(CheckTrainPositionCoroutine(train));
     }

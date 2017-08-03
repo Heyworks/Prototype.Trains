@@ -83,8 +83,15 @@ public abstract class ActionObject
         this.yPosition = yPosition;
         ActionObjectType = actionObjectType;
         AssignedLine = lines.First();
-        AssignedLine.AddActionObject(this);
         startInstallationTime = Time.time;
+    }
+
+    /// <summary>
+    /// Adds the object to line.
+    /// </summary>
+    public void AddObjectToLine()
+    {
+        AssignedLine.AddActionObject(this);
     }
 
     /// <summary>
