@@ -11,6 +11,8 @@ public class ActionObjectSlot
     private readonly int cooldown;
     private readonly Team team;
     private float lastUseTime = -100;
+    private float yMin;
+    private float yMax;
 
     /// <summary>
     /// Gets a value indicating whether this instance is action object available.
@@ -62,11 +64,15 @@ public class ActionObjectSlot
     /// <param name="objectType">Type of the object.</param>
     /// <param name="team">The team.</param>
     /// <param name="factory">The factory.</param>
-    public ActionObjectSlot(ActionObjectType objectType, Team team, ActionObjectsFactory factory)
+    /// <param name="yMin">The y minimum.</param>
+    /// <param name="yMax">The y maximum.</param>
+    public ActionObjectSlot(ActionObjectType objectType, Team team, ActionObjectsFactory factory, float yMin, float yMax)
     {
         this.objectType = objectType;
         this.factory = factory;
         this.team = team;
+        this.yMin = yMin;
+        this.yMax = yMax;
         cooldown = GameSettings.cooldowns[objectType];
     }
 
@@ -74,15 +80,21 @@ public class ActionObjectSlot
     /// Installs the action object.
     /// </summary>
     /// <param name="position">The position.</param>
-    public ActionObject InstallObject(Vector2 position)
+    public void InstallObject(Vector2 position)
     {
-        if (IsActionObjectAvailable)
+        if (IsActionObjectAvailable && CheckPosition(position))
         {
             lastUseTime = Time.time;
-            return factory.CreateActionObject(objectType, team, position);
+            factory.CreateActionObject(objectType, team, position);
         }
+        else
+        {
+            Debug.LogWarning(string.Format("Can't install action object of type {0}.", objectType));            
+        }
+    }
 
-        Debug.LogError(string.Format("Can't install action object of type {0}. Cooldown is not finished.", objectType));
-        return null;
+    private bool CheckPosition(Vector2 position)
+    {
+        return position.y > yMin && position.y < yMax;
     }
 }

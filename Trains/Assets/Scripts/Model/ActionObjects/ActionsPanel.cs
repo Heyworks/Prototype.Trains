@@ -17,18 +17,18 @@ public class ActionsPanel
     public ActionsPanel(GameField gameField)
     {
         var factory = new ActionObjectsFactory(gameField);
-        CreateSlots(factory);
+        CreateSlots(factory, gameField);
     }
 
-    private void CreateSlots(ActionObjectsFactory factory)
+    private void CreateSlots(ActionObjectsFactory factory, GameField gameField)
     {
         Slots = new List<ActionObjectSlot>();
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Ambush, Team.Red, factory));
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Barrier, Team.Red, factory));
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Arrow, Team.Red, factory));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Ambush, Team.Red, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Barrier, Team.Red, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Arrow, Team.Red, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
 
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Ambush, Team.Blue, factory));
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Barrier, Team.Blue, factory));
-        Slots.Add(new ActionObjectSlot(ActionObjectType.Arrow, Team.Blue, factory));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Ambush, Team.Blue, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Barrier, Team.Blue, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
+        Slots.Add(new ActionObjectSlot(ActionObjectType.Arrow, Team.Blue, factory, gameField.LeftLowerDepoPosition.y, gameField.RightUpperDepoPosition.y));
     }
 }
