@@ -10,6 +10,8 @@ public abstract class ActionObject
 {
     private readonly float startInstallationTime;
     private readonly float yPosition;
+    
+    private static MonoBehaviour contextMonoBehaviour;
 
     /// <summary>
     /// Occurs when object has been deactivated.
@@ -60,8 +62,12 @@ public abstract class ActionObject
     {
         get
         {
-            //TODO: create own context beh.
-            return FieldView.fieldView;
+            if (contextMonoBehaviour == null)
+            {
+                contextMonoBehaviour = (new GameObject()).AddComponent<ContextBehaviour>();
+            }
+
+            return contextMonoBehaviour;
         }
     }
 

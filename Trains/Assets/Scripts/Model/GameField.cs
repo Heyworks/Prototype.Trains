@@ -66,11 +66,13 @@ public class GameField
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GameField"/> class.
+    /// Initializes a new instance of the <see cref="GameField" /> class.
     /// </summary>
-    public GameField()
+    /// <param name="redTrains">The red trains.</param>
+    /// <param name="blueTrains">The blue trains.</param>
+    public GameField(List<Train> redTrains, List<Train> blueTrains)
     {
-        CreateFieldItems();
+        CreateFieldItems(redTrains, blueTrains);
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ public class GameField
 
         return list;
     }
-    
+
     /// <summary>
     /// Process movement by time.
     /// </summary>
@@ -120,7 +122,7 @@ public class GameField
         return lines.OrderBy(line => line.GetDistanceFrom(position)).ToList();
     }
 
-    private void CreateFieldItems()
+    private void CreateFieldItems(List<Train> redTrainsData, List<Train> blueTrainsData)
     {
         var blueTeamY = GameSettings.fieldLength;
         var firstLineX = GameSettings.firstLineX;
@@ -139,33 +141,26 @@ public class GameField
             depo.Add(depoRed);
             depo.Add(depoBlue);
             lines.Add(line);
+
+            var redTrainData = redTrainsData[i];
+            var blueTrainData = blueTrainsData[i];
+            line.CreateTrain(redTrainData.Speed, redTrainData.Live, redTrainData.Attack, redTrainData.Cargo, Team.Red);
+            line.CreateTrain(blueTrainData.Speed, blueTrainData.Live, blueTrainData.Attack,  blueTrainData.Cargo, Team.Blue);
+
             line.ActionObjectAdded += Line_ActionObjectAdded;
         }
-
-        //Light
-        lines[0].CreateTrain(2, 1, 1, Team.Red);
-        lines[1].CreateTrain(2, 1, 1, Team.Blue);
-
-        //Medium
-        lines[1].CreateTrain(1.5f, 2, 2, Team.Red);
-        lines[2].CreateTrain(1.5f, 2, 2, Team.Blue);
-
-        //Heavy
-        lines[2].CreateTrain(1, 3, 3, Team.Red);
-        lines[0].CreateTrain(1, 3, 3, Team.Blue);
     }
-    
+
     private void Depo_DepoReached()
     {
         OnScoreChanged();
     }
-
-
+    
     private void Line_ActionObjectAdded(ActionObject actionObject)
     {
         OnActionObjectAdded(actionObject);
     }
-    
+
     private void OnScoreChanged()
     {
         Action handler = ScoreChanged;

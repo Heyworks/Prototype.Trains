@@ -63,10 +63,10 @@ public class Line
     /// <summary>
     /// Creates the train.
     /// </summary>
-    public void CreateTrain(float speed, int live, int attack, Team team)
+    public void CreateTrain(float speed, int live, int attack, int cargo, Team team)
     {
         var startPosition = team == Team.Red ? depoRed.Position : depoBlue.Position;
-        var train = new Train(speed, live, attack, team, startPosition);
+        var train = new Train(speed, live, attack, team, cargo, startPosition);
         AddTrain(train);
     }
 

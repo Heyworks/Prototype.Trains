@@ -11,4 +11,5 @@ public static class GameSettings
     public static int cargoEffect = 5;
     public static Dictionary<ActionObjectType, int> cooldowns = new Dictionary<ActionObjectType, int> { { ActionObjectType.Ambush, 45 }, { ActionObjectType.Arrow, 10 }, { ActionObjectType.Barrier, 30 } };
     public static Dictionary<ActionObjectType, int> installTime = new Dictionary<ActionObjectType, int> { { ActionObjectType.Ambush, 5 }, { ActionObjectType.Arrow, 0 }, { ActionObjectType.Barrier, 5 } };
+    public static int teamInitTime = 0;
 }

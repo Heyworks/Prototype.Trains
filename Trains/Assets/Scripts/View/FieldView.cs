@@ -6,8 +6,6 @@ using UnityEngine.UI;
 /// </summary>
 public class FieldView : MonoBehaviour
 {
-    public static FieldView fieldView;
-
     [SerializeField]
     private TrainView trainPrefab;
     [SerializeField]
@@ -28,12 +26,7 @@ public class FieldView : MonoBehaviour
     /// Gets the position converter.
     /// </summary>
     public PositionConverter PositionConverter { get; private set; }
-
-    private void Awake()
-    {
-        fieldView = this;
-    }
-
+    
     /// <summary>
     /// Initializes the field.
     /// </summary>

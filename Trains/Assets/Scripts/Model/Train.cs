@@ -66,15 +66,16 @@ public class Train
     /// <param name="live">The live.</param>
     /// <param name="attack">The attack.</param>
     /// <param name="team">The team.</param>
+    /// <param name="cargo">The cargo.</param>
     /// <param name="startPosition">The start position.</param>
-    public Train(float speed, int live, int attack, Team team, Vector2 startPosition)
+    public Train(float speed, int live, int attack, Team team, int cargo, Vector2 startPosition)
     {
         Speed = speed;
         Live = live;
         Attack = attack;
         Team = team;
         Position = startPosition;
-        Cargo = 10;
+        Cargo = cargo;
     }
 
     /// <summary>
@@ -138,6 +139,15 @@ public class Train
     {
         Cargo = Math.Max(Cargo - cargoAmount, 0);
         OnAttacked();
+    }
+
+    /// <summary>
+    /// Adds the cargo.
+    /// </summary>
+    public void AddCargo(int cargoAmount)
+    {
+        Cargo+= cargoAmount;
+
     }
 
     /// <summary>
