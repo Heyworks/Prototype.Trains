@@ -15,10 +15,11 @@ public class GameInput : NonDrawingGraphic, IDragHandler, IPointerDownHandler, I
     private float lastTapTime;
     private int clickCount;
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
+        StopAllCoroutines();
         StartCoroutine(ClickListener());
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class TrainsInitializer
 {
+    /// <summary>
+    /// Occurs when free cargo changed.
+    /// </summary>
+    public event Action FreeCargoChanged;
+
     /// <summary>
     /// Gets the team.
     /// </summary>
@@ -42,6 +48,7 @@ public class TrainsInitializer
         {
             train.AddCargo(1);
             FreeCargo--;
+            OnFreeCargoChanged();
         }
     }
 
@@ -55,20 +62,20 @@ public class TrainsInitializer
         {
             train.RemoveCargo(1);
             FreeCargo++;
+            OnFreeCargoChanged();
         }
     }
 
     /// <summary>
     /// Swaps the specified trains.
     /// </summary>
-    /// <param name="train1">The train1.</param>
-    /// <param name="train2">The train2.</param>
-    public void Swap(Train train1, Train train2)
+    /// <param name="train1Slot">The train1 slot.</param>
+    /// <param name="train2Slot">The train2 slot.</param>
+    public void Swap(int train1Slot, int train2Slot)
     {
-        var index1 = Trains.IndexOf(train1);
-        var index2 = Trains.IndexOf(train2);
-        Trains[index1] = train2;
-        Trains[index2] = train1;
+        var train1 = Trains[train1Slot];
+        Trains[train1Slot] = Trains[train2Slot];
+        Trains[train2Slot] = train1;
     }
 
     //TODO change Train to TrainData
@@ -80,5 +87,11 @@ public class TrainsInitializer
     private Train CreateTrain(float speed, int live, int attack, Team team)
     {
         return new Train(speed, live, attack, team, 0, Vector2.zero);
+    }
+    
+    private void OnFreeCargoChanged()
+    {
+        Action handler = FreeCargoChanged;
+        if (handler != null) handler();
     }
 }

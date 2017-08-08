@@ -33,6 +33,29 @@ public class TrainView : MonoBehaviour
         train.Attacked += Train_Attacked;
         train.Crashed += Train_Crashed;
         UpdateStats();
+        SetupTrainImage(train);
+    }
+
+    /// <summary>
+    /// Shows the train data.
+    /// </summary>
+    /// <param name="train">The train.</param>
+    public void ShowTrainData(Train train)
+    {
+        cargo.text = train.Cargo.ToString();
+        SetupTrainImage(train);
+    }
+
+    private void Update()
+    {
+        if (train != null)
+        {
+            transform.position = positionConverter.ConvertModelToViewPosition(train.Position);
+        }
+    }
+
+    private void SetupTrainImage(Train train)
+    {
         trainImage.color = train.Team == Team.Red ? Color.red : Color.blue;
         switch (train.Live)
         {
@@ -50,14 +73,6 @@ public class TrainView : MonoBehaviour
                 break;
             default:
                 throw new Exception(string.Format("Can't find figure for train with live : {0}", train.Live));
-        }
-    }
-
-    private void Update()
-    {
-        if (train != null)
-        {
-            transform.position = positionConverter.ConvertModelToViewPosition(train.Position);
         }
     }
 
