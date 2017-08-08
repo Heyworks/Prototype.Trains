@@ -41,11 +41,12 @@ public class TrainsInitializer
     /// <summary>
     /// Adds the cargo to train.
     /// </summary>
-    /// <param name="train">The train.</param>
-    public void AddCargoToTrain(Train train)
+    /// <param name="index">The index.</param>
+    public void AddCargoToTrain(int index)
     {
         if (FreeCargo > 0)
         {
+            var train = Trains[index];
             train.AddCargo(1);
             FreeCargo--;
             OnFreeCargoChanged();
@@ -55,9 +56,10 @@ public class TrainsInitializer
     /// <summary>
     /// Removes the cargo from train.
     /// </summary>
-    /// <param name="train">The train.</param>
-    public void RemoveCargoFromTrain(Train train)
+    /// <param name="index">The index.</param>
+    public void RemoveCargoFromTrain(int index)
     {
+        var train = Trains[index];
         if (train.Cargo > 0)
         {
             train.RemoveCargo(1);
@@ -81,14 +83,14 @@ public class TrainsInitializer
     //TODO change Train to TrainData
     private void CreateTrains()
     {
-        Trains = new List<Train> {CreateTrain(2, 1, 1, Team), CreateTrain(1.5f, 2, 2, Team), CreateTrain(1, 3, 3, Team)};
+        Trains = new List<Train> { CreateTrain(2, 1, 1, Team), CreateTrain(1.5f, 2, 2, Team), CreateTrain(1, 3, 3, Team) };
     }
 
     private Train CreateTrain(float speed, int live, int attack, Team team)
     {
         return new Train(speed, live, attack, team, 0, Vector2.zero);
     }
-    
+
     private void OnFreeCargoChanged()
     {
         Action handler = FreeCargoChanged;

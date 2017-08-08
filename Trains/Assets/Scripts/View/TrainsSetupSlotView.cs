@@ -8,7 +8,6 @@ public class TrainsSetupSlotView : MonoBehaviour
     [SerializeField]
     private GameInput input;
     
-    private Train train;
     private int index;
     private TrainsInitializer initializer;
 
@@ -21,8 +20,9 @@ public class TrainsSetupSlotView : MonoBehaviour
     {
         input.Tap += Input_Tap;
         input.DoubleTap += Input_DoubleTap;
+        input.Drag += Input_Drag;
     }
-    
+
     /// <summary>
     /// Setups the specified slot index.
     /// </summary>
@@ -30,7 +30,6 @@ public class TrainsSetupSlotView : MonoBehaviour
     /// <param name="initializer">The initializer.</param>
     public void Setup(int slotIndex, TrainsInitializer initializer)
     {
-        train = initializer.Trains[slotIndex];
         index = slotIndex;
         this.initializer = initializer;
         UpdateSlot();
@@ -41,6 +40,8 @@ public class TrainsSetupSlotView : MonoBehaviour
     /// </summary>
     public void UpdateSlot()
     {
+        var train = initializer.Trains[index];
+
         if (train != null)
         {
             trainView.ShowTrainData(train);
@@ -49,13 +50,19 @@ public class TrainsSetupSlotView : MonoBehaviour
 
     private void Input_DoubleTap()
     {
-        initializer.RemoveCargoFromTrain(train);
+        initializer.RemoveCargoFromTrain(index);
         UpdateSlot();
     }
 
+    private void Input_Drag(Vector2 delta)
+    {
+        var isRight = delta.x > 0;
+        OnSwapped(new SwapData(index, isRight));
+    }
+    
     private void Input_Tap()
     {
-        initializer.AddCargoToTrain(train);
+        initializer.AddCargoToTrain(index);
         UpdateSlot();
     }
 

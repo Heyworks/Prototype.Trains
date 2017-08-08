@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GameInput : NonDrawingGraphic, IDragHandler, IPointerDownHandler, IPointerClickHandler
+public class GameInput : NonDrawingGraphic, IDragHandler, IPointerDownHandler, IPointerClickHandler, IBeginDragHandler, IEndDragHandler
 {
     public event System.Action DoubleTap;
     public event System.Action Tap;
-
+    public event Action<Vector2> Drag;
+    
     [SerializeField]
     private float doubleTapDuration = 0.2f;
 
@@ -14,6 +16,7 @@ public class GameInput : NonDrawingGraphic, IDragHandler, IPointerDownHandler, I
     private int dragFingerId;
     private float lastTapTime;
     private int clickCount;
+    private Vector2 dragStartPosition;
 
     protected override void OnEnable()
     {
@@ -77,6 +80,28 @@ public class GameInput : NonDrawingGraphic, IDragHandler, IPointerDownHandler, I
         if (DoubleTap != null)
         {
             DoubleTap();
+        }
+    }
+
+    private void OnDrag(Vector2 obj)
+    {
+        Action<Vector2> handler = Drag;
+        if (handler != null) handler(obj);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        wasDragged = true;
+        dragFingerId = eventData.pointerId;
+        dragStartPosition = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (dragFingerId == eventData.pointerId)
+        {
+            var delta = eventData.position - dragStartPosition;
+            OnDrag(delta);
         }
     }
 }
