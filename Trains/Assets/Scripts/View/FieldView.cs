@@ -19,6 +19,8 @@ public class FieldView : MonoBehaviour
     private Text blueTeamScore;
     [SerializeField]
     private ActionObjectView actionObjectViewPrefab;
+    [SerializeField]
+    private Image[] safeZones;
     
     private GameField field;
 
@@ -26,7 +28,7 @@ public class FieldView : MonoBehaviour
     /// Gets the position converter.
     /// </summary>
     public PositionConverter PositionConverter { get; private set; }
-    
+
     /// <summary>
     /// Initializes the field.
     /// </summary>
@@ -45,8 +47,19 @@ public class FieldView : MonoBehaviour
         }
 
         UpdateScore();
+        SetupSafeZones();
+        
         field.ScoreChanged += Field_ScoreChanged;
         field.ActionObjectAdded += Field_ActionObjectAdded;
+    }
+
+    private void SetupSafeZones()
+    {
+        var sizeDeltaY = PositionConverter.ConvertModelLengthToView(GameSettings.safeZoneSize);
+        foreach (var zone in safeZones)
+        {
+            zone.rectTransform.sizeDelta = new Vector2(0, sizeDeltaY);
+        }
     }
 
     private void CreateActionObjectView(ActionObject actionObject)

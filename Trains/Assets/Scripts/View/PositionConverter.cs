@@ -53,4 +53,13 @@ public class PositionConverter
 
         return new Vector2(viewX, viewY);
     }
+
+    /// <summary>
+    /// Converts the model length to view.
+    /// </summary>
+    /// <param name="modelLength">Length of the model.</param>
+    public float ConvertModelLengthToView(float modelLength)
+    {
+        return yDelta*modelLength;
+    }
 }

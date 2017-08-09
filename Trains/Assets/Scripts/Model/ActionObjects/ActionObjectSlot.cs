@@ -95,6 +95,7 @@ public class ActionObjectSlot
 
     private bool CheckPosition(Vector2 position)
     {
-        return position.y > yMin && position.y < yMax;
+        var isOnField = position.y > (yMin + GameSettings.safeZoneSize) && position.y < (yMax - GameSettings.safeZoneSize);
+        return isOnField;
     }
 }

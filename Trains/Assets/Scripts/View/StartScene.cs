@@ -11,6 +11,8 @@ public class StartScene : MonoBehaviour
     [SerializeField]
     private InputField lineDeltaX;
     [SerializeField]
+    private InputField safeZoneSize;
+    [SerializeField]
     private InputField cargoEffect;
     [SerializeField]
     private InputField arrowCooldown;
@@ -25,6 +27,7 @@ public class StartScene : MonoBehaviour
         firstLineX.text = GameSettings.firstLineX.ToString();
         lineDeltaX.text = GameSettings.lineDeltaX.ToString();
         cargoEffect.text = GameSettings.cargoEffect.ToString();
+        safeZoneSize.text = GameSettings.safeZoneSize.ToString();
 
         arrowCooldown.text = GameSettings.cooldowns[ActionObjectType.Arrow].ToString();
         barrierCooldown.text = GameSettings.cooldowns[ActionObjectType.Barrier].ToString();
@@ -37,6 +40,7 @@ public class StartScene : MonoBehaviour
         GameSettings.firstLineX = int.Parse(firstLineX.text);
         GameSettings.lineDeltaX = int.Parse(lineDeltaX.text);
         GameSettings.cargoEffect = int.Parse(cargoEffect.text);
+        GameSettings.safeZoneSize = int.Parse(safeZoneSize.text);
 
         GameSettings.cooldowns[ActionObjectType.Arrow] = int.Parse(arrowCooldown.text);
         GameSettings.cooldowns[ActionObjectType.Barrier] = int.Parse(barrierCooldown.text);
