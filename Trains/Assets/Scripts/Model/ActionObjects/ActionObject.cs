@@ -118,7 +118,7 @@ public abstract class ActionObject
     {
         if (!IsActive && IsInstalled)
         {
-            var distance = Math.Abs(train.Position.y - yPosition);
+            var distance = (train.Position - Position).magnitude;
             if (train.Team == GetRequiredTrainTeam() && distance < Constants.COLLISION_DISTANCE)
             {
                 IsActive = true;
