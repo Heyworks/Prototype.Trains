@@ -17,6 +17,10 @@ public class TrainView : MonoBehaviour
     private Sprite square;
     [SerializeField]
     private Sprite circle;
+    [SerializeField]
+    private AudioSource attackAudioSource;
+    [SerializeField]
+    private AudioSource crashAudioSource;
 
     private PositionConverter positionConverter;
     private Train train;
@@ -78,6 +82,7 @@ public class TrainView : MonoBehaviour
 
     private void Train_Crashed()
     {
+        crashAudioSource.Play();
         PlayAttackedEffect();
         PlayCrashedEffect();
     }
@@ -89,6 +94,7 @@ public class TrainView : MonoBehaviour
 
     private void Train_Attacked()
     {
+        attackAudioSource.Play();
         UpdateStats();
         PlayAttackedEffect();
     }

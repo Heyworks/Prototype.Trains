@@ -20,8 +20,11 @@ public class FieldView : MonoBehaviour
     [SerializeField]
     private ActionObjectView actionObjectViewPrefab;
     [SerializeField]
+    private AudioSource ambientSource;
+
+    [SerializeField]
     private Image[] safeZones;
-    
+
     private GameField field;
 
     /// <summary>
@@ -48,7 +51,8 @@ public class FieldView : MonoBehaviour
 
         UpdateScore();
         SetupSafeZones();
-        
+
+        ambientSource.Play();
         field.ScoreChanged += Field_ScoreChanged;
         field.ActionObjectAdded += Field_ActionObjectAdded;
     }
